@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useReducer } from "react";
-
+import React, { useState, useEffect, useReducer, useContext } from "react";
+import AuthContext from '../contextStore/auth-context'
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
 
 const emailReducerFn = (state, action) => {
+ 
   let emailValue;
   switch (action.type) {
     case "USER_INPUT":
@@ -40,7 +41,8 @@ const passwordReducerFn = (state, action) => {
   return passwordValue;
 };
 
-const Login = (props) => {
+const Login = () => {
+  const loginContext = useContext(AuthContext)
   const [formIsValid, setFormIsValid] = useState(null);
 
   //const [state, dispatchFn] = useReducer(reducerFn, initialState)
@@ -100,7 +102,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    loginContext.onLogin(emailState.value, passwordState.value);
   };
 
   return (

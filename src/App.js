@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
 import MainHeader from './components/MainHeader/MainHeader';
+import AuthContext from './components/contextStore/auth-context'
 
 
 function App() {
@@ -26,13 +27,17 @@ useEffect(()=>{
   };
 
   return (
-    <React.Fragment>
-      <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+         <AuthContext.Provider value={{
+          isLoggedIn: isLoggedIn,
+          onLogout: logoutHandler //we provide the logouthandler function which can also be accessed by any other compponent that needs it
+         }}>
+      <MainHeader />
       <main>
         {!isLoggedIn && <Login onLogin={loginHandler} />}
         {isLoggedIn && <Home onLogout={logoutHandler} />}
       </main>
-    </React.Fragment>
+      </AuthContext.Provider>
+   
   );
 }
 
